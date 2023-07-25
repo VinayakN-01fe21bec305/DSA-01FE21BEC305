@@ -1,77 +1,81 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<time.h>
-struct stack
+#define MAX 100
+int top=0;
+int STACK[MAX];
+FILE* fp;
+void push()
 {
-    int data[100];
-    int top;
-};
-void push(struct stack* s1,int num)
-{
-    if(s1->top==100-1)
+    if(top==MAX-1)
     {
-        printf("Stack overflow\n");
+        printf("Stack is Full\n");
+        return;
     }
-    else
-    {
-        s1->top++;
-        s1->data[s1->top]=num;
-    }
+    int element;
+    fscanf(fp,"%d",&elem);
+    stack[top++]=elem;
+
 }
-int pop(struct stack* s)
+void pop()
 {
-    int a;
-    if(s->top==-1)
+    if(top==0)
     {
-       printf("Stack underflow\n");
+        printf("Stack is empty\n");
+        return;
     }
-    else
+        top--;
+    printf("%d is poped\n",stack[top]);
+
+}
+void peak()
+{
+    printf("%d is peak element\n",stack[top-1]);
+}
+void display()
+{
+    if(top==0)
     {
-       a=s->data[s->top];
-       s->top--;
+        printf("Stack is empty\n");
+        return;
     }
-    return a;
+    for (int i=0;i<top;i++)
+    {
+        printf("%d ",stack[i]);
+    }
+    printf("\n");
 }
 int main()
 {
-    struct stack s1_var,s2_var,*s1,*s2;
-    s1=&s1_var;
-    s2=&s2_var;
-    s1->top=-1;
-    s2->top=-1;
-    FILE *fp=NULL;
-    fp=fopen("okdone.txt","w+");
-    if(fp==NULL)
-    {
-        printf("Error in creating a file\n");
-        exit(0);
-    }
-    srand(time(0));
-    int n,num,u=40,l=1;
-    printf("Enter the random number size\n");
-    scanf("%d",&n);
-
-    for(int i=0;i<n;i++)
-    {
-          num=rand()%(u-l+1)+l;
-          printf("%d ",num);
-          push(s1,num);
-    }
-    for(int i=0;i<n;i++)
-    {
-        num=pop(s1);
-        push(s2,num*2);
-    }
-    for(int i=0;i<n;i++)
-    {
-        num=pop(s2);
-        push(s1,num);
-    }
+    fp=fopen("mystack.txt","r");
+    printf("THESE ARE STACK BASIC OPERATIONS\n");
     rewind(fp);
-    for(int i=0;i<n;i++)
+    int oper;
+    while(1)
+
     {
-        num=pop(s1);
-        fprintf(fp,"%d ",num);
+        printf("ENTER YOUR CHOICE\n1:PUSH\n2:POP\n3:PEAK\n4:DISPLAY\n5:Exit\n");
+
+        scanf("%d",&oper);
+        switch(oper)
+        {
+
+        case 1 :
+            push();
+            break;
+        case 2 :
+            pop();
+            break;
+        case 3 :
+            peak();
+            break;
+        case 4 :
+            display();
+            break;
+        case 5 :
+            exit(0);
+        default:
+            printf("ENTER THE VALID CHOICE\n");
+        }
     }
-    fclose(fp);
+
 }
